@@ -9,9 +9,10 @@ export class EmployeeController{
     @Post('add')
     async addEmployee(
         @Body('name') empName: string,
-        @Body('department') empDept: string
+        @Body('department') empDept: string,
+        @Body('gender') empGender: string
     ){
-        const generatedId = await this.employeeService.addEmployee(empName, empDept)
+        const generatedId = await this.employeeService.addEmployee(empName, empDept, empGender)
         return { id : generatedId}
 
     }
@@ -45,5 +46,21 @@ export class EmployeeController{
         @Param('id') empId
     ){
         return await this.employeeService.deleteEmployee(empId)
+    }
+
+    @Post('/dept/:empId')
+    async addDept(
+        @Param('empId') empId,
+        @Body('department') department
+    ){
+        return await this.employeeService.addDepartment(empId, department)
+    }
+
+    @Delete('/dept/:empId')
+    async deleteDept(
+        @Param('empId') empId,
+        @Body('department') department
+    ){
+        return await this.employeeService.deleteEmployeeDepartment(empId, department)
     }
 }
